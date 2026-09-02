@@ -72,16 +72,18 @@ const Navbar = () => {
           </a>
         </div>
 
-        <button
-          type="button"
-          className="icon-button lg:hidden"
-          onClick={() => setIsOpen((open) => !open)}
-          aria-expanded={isOpen}
-          aria-controls="mobile-navigation"
-          aria-label={isOpen ? "Close navigation" : "Open navigation"}
-        >
-          {isOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
-        </button>
+        <div className="lg:hidden">
+          <button
+            type="button"
+            className="icon-button"
+            onClick={() => setIsOpen((open) => !open)}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
+            aria-label={isOpen ? "Close navigation" : "Open navigation"}
+          >
+            {isOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+          </button>
+        </div>
       </div>
 
       <AnimatePresence>
