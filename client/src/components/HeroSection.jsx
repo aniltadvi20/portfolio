@@ -1,117 +1,153 @@
-import React from "react";
+import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import {
-  FaShieldAlt,
-  FaRocket,
-  FaLinkedin,
+  FaArrowRight,
   FaGithub,
+  FaLinkedinIn,
+  FaShieldAlt,
   FaTwitter,
-  FaDownload,
 } from "react-icons/fa";
-import { motion } from "framer-motion";
+import { profile } from "../data/portfolio";
+
+const phases = [
+  ["01", "Map the intended workflow"],
+  ["02", "Trace trust boundaries"],
+  ["03", "Change one assumption"],
+  ["04", "Compare roles and state"],
+];
 
 const HeroSection = () => {
-  const socialLinks = [
-    {
-      icon: (
-        <FaLinkedin className="w-6 h-6 text-blue-600 hover:text-blue-400" />
-      ),
-      href: "https://www.linkedin.com/in/anil-tadvi-238b592a7",
-    },
-    {
-      icon: <FaGithub className="w-6 h-6 text-gray-400 hover:text-white" />,
-      href: "https://github.com/aniltadvi20",
-    },
-    {
-      icon: <FaTwitter className="w-6 h-6 text-sky-400 hover:text-sky-300" />,
-      href: "https://x.com/AnilTadviSec",
-    },
+  const socials = [
+    { label: "GitHub", href: profile.github, icon: <FaGithub /> },
+    { label: "LinkedIn", href: profile.linkedin, icon: <FaLinkedinIn /> },
+    { label: "X", href: profile.x, icon: <FaTwitter /> },
   ];
 
   return (
-    <div className="relative w-full min-h-screen flex items-center bg-gradient-to-br from-gray-900 to-black text-gray-200">
-      <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black z-10"></div>
-
-      <div className="relative z-20 w-full max-w-5xl mx-auto px-6">
+    <section className="relative flex min-h-[calc(100vh-5rem)] items-center py-16 sm:py-20">
+      <div className="page-wrap grid items-center gap-16 lg:grid-cols-[1.08fr_0.92fr] lg:gap-14">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
+          transition={{ duration: 0.58, ease: "easeOut" }}
         >
-          {/* Name */}
-          <h1 className="text-4xl md:text-6xl font-bold text-[#33FF33] drop-shadow-[0_0_10px_#33FF33]">
-            Anil Tadvi
+          <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.025] px-4 py-2 font-mono text-[10px] uppercase tracking-[0.12em] text-[#a4afa9]">
+            <span className="status-dot" aria-hidden="true" />
+            Open to security opportunities
+          </div>
+
+          <p className="eyebrow">Offensive security · Web + API</p>
+          <h1 className="display-title mt-6 text-5xl sm:text-7xl lg:text-[5.65rem]">
+            I test where <span className="text-accent">trust breaks.</span>
           </h1>
-
-          {/* Headline */}
-          <p className="text-xl md:text-2xl text-gray-300">
-            Offensive Security Researcher | Bug Bounty Hunter
+          <p className="body-copy mt-7">
+            I&apos;m Anil, an offensive security researcher focused on finding
+            authorization flaws, authentication weaknesses, and business-logic
+            vulnerabilities in modern applications.
           </p>
 
-          {/* Description */}
-          <p className="text-md text-gray-400 max-w-2xl leading-relaxed">
-            Identifying real-world vulnerabilities in modern web applications
-            through offensive security testing and bug bounty research.
-          </p>
-
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row gap-5 mt-2">
-            
-            {/* Primary */}
-            <Link
-              to="/projects"
-              className="px-6 py-3 bg-[#33FF33] text-[#0A192F]
-              hover:bg-opacity-80 transition-all duration-300 rounded-lg
-              flex items-center space-x-2 shadow-[0_0_10px_#33FF33]"
-            >
-              <FaRocket />
-              <span>Projects</span>
+          <div className="mt-9 flex flex-col gap-3 sm:flex-row">
+            <Link className="button button-primary" to="/projects">
+              Explore selected work <FaArrowRight aria-hidden="true" />
             </Link>
-
-            {/* Secondary */}
-            <a
-              href="/Anil_Tadvi_Offensive_Security_Resume.pdf"
-              download
-              className="px-6 py-3 border border-[#33FF33] text-[#33FF33]
-              hover:bg-[#33FF33] hover:text-[#0A192F]
-              transition-all duration-300 rounded-lg
-              flex items-center space-x-2"
-            >
-              <FaDownload />
-              <span>Download Resume</span>
-            </a>
-
-            {/* Tertiary (FIXED + GLOW) */}
-            <Link
-              to="/contact"
-              className="px-6 py-3 border border-[#33FF33] text-[#33FF33]
-              hover:bg-[#33FF33] hover:text-[#0A192F]
-              transition-all duration-300 rounded-lg
-              flex items-center space-x-2 shadow-[0_0_8px_#33FF33]"
-            >
-              <FaShieldAlt />
-              <span>Contact</span>
+            <Link className="button button-secondary" to="/contact">
+              <FaShieldAlt aria-hidden="true" /> Discuss a project
             </Link>
           </div>
 
-          {/* Social Links */}
-          <div className="flex space-x-5 pt-4">
-            {socialLinks.map((social, index) => (
+          <div className="mt-10 flex items-center gap-3">
+            <span className="mr-2 font-mono text-[10px] uppercase tracking-[0.14em] text-[#68726d]">
+              Find me
+            </span>
+            {socials.map((social) => (
               <a
-                key={index}
+                key={social.label}
+                className="icon-button"
                 href={social.href}
                 target="_blank"
-                rel="noopener noreferrer"
-                className="transform hover:scale-110 transition-transform"
+                rel="noreferrer"
+                aria-label={social.label}
               >
                 {social.icon}
               </a>
             ))}
           </div>
         </motion.div>
+
+        <motion.div
+          className="relative lg:pl-4"
+          initial={{ opacity: 0, scale: 0.96, y: 26 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.65, delay: 0.12, ease: "easeOut" }}
+        >
+          <div className="absolute -inset-10 -z-10 rounded-full bg-[#73e2a7]/6 blur-3xl" />
+          <div className="research-window">
+            <div className="window-bar">
+              <div className="flex items-center gap-2" aria-hidden="true">
+                <span className="window-dot bg-[#ff6b6b]/60" />
+                <span className="window-dot bg-[#f5c76b]/60" />
+                <span className="window-dot bg-[#73e2a7]/60" />
+              </div>
+              <span>research / methodology</span>
+              <span className="text-[#73e2a7]">● secure</span>
+            </div>
+
+            <div className="p-5 sm:p-7">
+              <p className="terminal-command border-b border-white/[0.07] pb-5">
+                <span className="terminal-prompt">$</span> approach --target
+                modern-web-app --mode manual-first
+              </p>
+
+              <div className="space-y-1 py-5">
+                {phases.map(([number, label], index) => (
+                  <motion.div
+                    key={number}
+                    className="group flex items-center gap-4 rounded-xl px-3 py-3 transition hover:bg-white/[0.035]"
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.36 + index * 0.1 }}
+                  >
+                    <span className="font-mono text-[10px] text-[#73e2a7]">
+                      {number}
+                    </span>
+                    <span className="text-sm font-medium text-[#c6ceca]">
+                      {label}
+                    </span>
+                    <span className="ml-auto h-px w-5 bg-white/10 transition-all group-hover:w-9 group-hover:bg-[#73e2a7]/50" />
+                  </motion.div>
+                ))}
+              </div>
+
+              <div className="grid grid-cols-3 border-t border-white/[0.07] pt-5">
+                {[
+                  ["Focus", "Web + API"],
+                  ["Method", "Manual-first"],
+                  ["Rule", "Authorized"],
+                ].map(([label, value]) => (
+                  <div key={label} className="border-r border-white/[0.07] px-3 last:border-0 first:pl-0">
+                    <p className="font-mono text-[9px] uppercase tracking-[0.12em] text-[#66706b]">
+                      {label}
+                    </p>
+                    <p className="mt-2 text-[11px] font-bold text-[#dfe5e1] sm:text-xs">
+                      {value}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute -bottom-5 -left-4 hidden rounded-xl border border-white/10 bg-[#0f1419]/95 px-4 py-3 shadow-xl sm:block">
+            <p className="font-mono text-[9px] uppercase tracking-[0.14em] text-[#6f7974]">
+              Signal
+            </p>
+            <p className="mt-1 text-xs font-semibold text-[#73e2a7]">
+              Assumption changed → behavior observed
+            </p>
+          </div>
+        </motion.div>
       </div>
-    </div>
+    </section>
   );
 };
 

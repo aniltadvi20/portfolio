@@ -1,169 +1,142 @@
-import Logo from "../assets/logo.png";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import {
-  FaHome,
-  FaCode,
-  FaCertificate,
-  FaUser,
-  FaEnvelope,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Link, NavLink } from "react-router-dom";
+import { FaArrowUp, FaBars, FaTimes } from "react-icons/fa";
+import { profile } from "../data/portfolio";
+
+const navItems = [
+  { label: "Home", path: "/" },
+  { label: "Work", path: "/projects" },
+  { label: "About", path: "/about" },
+  { label: "Credentials", path: "/certifications" },
+  { label: "Contact", path: "/contact" },
+];
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navLinks = [
-    {
-      path: "/",
-      label: "Home",
-      icon: <FaHome className="w-5 h-5" />,
-    },
-    {
-      path: "/projects",
-      label: "Projects",
-      icon: <FaCode className="w-5 h-5" />,
-    },
-    {
-      path: "/certifications",
-      label: "Certifications",
-      icon: <FaCertificate className="w-5 h-5" />,
-    },
-    {
-      path: "/about",
-      label: "About",
-      icon: <FaUser className="w-5 h-5" />,
-    },
-    {
-      path: "/contact",
-      label: "Contact",
-      icon: <FaEnvelope className="w-5 h-5" />,
-    },
-  ];
+  useEffect(() => {
+    const handleEscape = (event) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
 
-  const mobileMenuVariants = {
-    closed: {
-      x: "100%",
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-    open: {
-      x: 0,
-      transition: {
-        duration: 0.3,
-        ease: "easeInOut",
-      },
-    },
-  };
+    document.body.style.overflow = isOpen ? "hidden" : "";
+    window.addEventListener("keydown", handleEscape);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
+  const navClassName = ({ isActive }) =>
+    `nav-link${isActive ? " active" : ""}`;
 
   return (
-    <nav className="fixed w-full z-50 bg-[#0A192F] shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center">
-            <img
-              src={Logo}
-              alt="Logo"
-              className="h-12 w-auto hover:opacity-90 transition"
-            />
-          </Link>
+    <header className="nav-surface fixed inset-x-0 top-0 z-50">
+      <div className="page-wrap flex h-20 items-center justify-between">
+        <Link
+          to="/"
+          className="flex items-center gap-3"
+          aria-label="Anil Tadvi — home"
+          onClick={() => setIsOpen(false)}
+        >
+          <span className="brand-mark">AT</span>
+          <span className="hidden sm:block">
+            <span className="block text-sm font-bold tracking-[-0.02em] text-white">
+              Anil Tadvi
+            </span>
+            <span className="block font-mono text-[9px] uppercase tracking-[0.16em] text-[#77827c]">
+              Security research
+            </span>
+          </span>
+        </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-6">
-            {navLinks.map((link, index) => (
-              <Link
-                key={index}
-                to={link.path}
-                className="group relative text-[#8892B0] hover:text-[#33FF33] transition-colors"
-              >
-                <span className="relative">
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#33FF33] group-hover:w-full transition-all duration-300"></span>
-                </span>
-              </Link>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={toggleMenu}
-              className="text-[#33FF33] focus:outline-none"
+        <nav className="hidden items-center gap-7 lg:flex" aria-label="Primary">
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              end={item.path === "/"}
+              className={navClassName}
             >
-              {isOpen ? (
-                <FaTimes className="h-6 w-6" />
-              ) : (
-                <FaBars className="h-6 w-6" />
-              )}
-            </button>
-          </div>
+              {item.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="hidden lg:block">
+          <a className="button button-secondary min-h-0! px-4! py-2.5!" href={`mailto:${profile.email}`}>
+            Start a conversation
+            <FaArrowUp className="rotate-45 text-xs" aria-hidden="true" />
+          </a>
         </div>
+
+        <button
+          type="button"
+          className="icon-button lg:hidden"
+          onClick={() => setIsOpen((open) => !open)}
+          aria-expanded={isOpen}
+          aria-controls="mobile-navigation"
+          aria-label={isOpen ? "Close navigation" : "Open navigation"}
+        >
+          {isOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+        </button>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <>
-            <motion.div
+            <motion.button
+              type="button"
+              className="fixed inset-0 top-20 z-40 cursor-default bg-black/60 backdrop-blur-sm lg:hidden"
               initial={{ opacity: 0 }}
-              animate={{ opacity: 0.7 }}
+              animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-[#0A192F] z-40"
-              onClick={toggleMenu}
+              onClick={() => setIsOpen(false)}
+              aria-label="Close navigation"
             />
 
-            <motion.div
-              variants={mobileMenuVariants}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              className="fixed top-0 right-0 w-64 h-full bg-[#112240] shadow-lg z-50"
+            <motion.nav
+              id="mobile-navigation"
+              className="fixed inset-x-4 top-24 z-50 overflow-hidden rounded-2xl border border-white/10 bg-[#10151b] p-3 shadow-2xl lg:hidden"
+              initial={{ opacity: 0, y: -16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              aria-label="Mobile navigation"
             >
-              <div className="absolute top-4 right-4">
-                <button
-                  onClick={toggleMenu}
-                  className="text-[#33FF33] focus:outline-none"
+              {navItems.map((item, index) => (
+                <motion.div
+                  key={item.path}
+                  initial={{ opacity: 0, x: -8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.035 }}
                 >
-                  <FaTimes className="h-6 w-6" />
-                </button>
-              </div>
-
-              <div className="px-4 pt-20 space-y-4">
-                {navLinks.map((link, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      transition: { delay: index * 0.08 },
-                    }}
+                  <NavLink
+                    to={item.path}
+                    end={item.path === "/"}
+                    onClick={() => setIsOpen(false)}
+                    className={({ isActive }) =>
+                      `flex items-center justify-between rounded-xl px-4 py-3.5 text-sm font-semibold transition ${
+                        isActive
+                          ? "bg-[#73e2a7]/10 text-[#73e2a7]"
+                          : "text-[#a5afaa] hover:bg-white/5 hover:text-white"
+                      }`
+                    }
                   >
-                    <Link
-                      to={link.path}
-                      onClick={toggleMenu}
-                      className="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-[#8892B0] hover:bg-[#112240] hover:text-[#33FF33] transition-colors"
-                    >
-                      {link.icon}
-                      <span>{link.label}</span>
-                    </Link>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+                    <span>{item.label}</span>
+                    <span className="font-mono text-[10px] text-[#5e6863]">
+                      0{index + 1}
+                    </span>
+                  </NavLink>
+                </motion.div>
+              ))}
+            </motion.nav>
           </>
         )}
       </AnimatePresence>
-    </nav>
+    </header>
   );
 };
 
