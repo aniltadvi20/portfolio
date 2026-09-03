@@ -1,284 +1,135 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
+  FaArrowUp,
+  FaBookOpen,
   FaCertificate,
-  FaAward,
   FaCheckCircle,
-  FaLink,
-  FaShieldAlt,
-  FaTimes,
-  FaTools,
-  FaBrain,
+  FaCrosshairs,
 } from "react-icons/fa";
+import { credentials } from "../data/portfolio";
 
-const Certifications = () => {
-  const [selectedCertification, setSelectedCertification] = useState(null);
-  const [activeTab, setActiveTab] = useState("cert");
-
-  // ======================
-  // CERTIFICATIONS
-  // ======================
-  const certifications = [
-    {
-      title: "Offensive Security Certified Professional (OSCP)",
-      issuer: "Offensive Security",
-      date: "In Progress",
-      description:
-        "Advanced hands-on penetration testing certification focused on real-world attack techniques.",
-      icon: <FaShieldAlt />,
-      status: "Pursuing",
-      badgeColor: "bg-yellow-500",
-      details: [
-        "Hands-on penetration testing",
-        "Privilege escalation",
-        "Web exploitation",
-      ],
-      skills: ["Buffer Overflow", "Privilege Escalation", "AD", "Web Exploitation"],
-      verificationLink: "https://www.offensive-security.com/verify",
-    },
-    {
-      title: "Certified Cybersecurity Educator Professional (CCEP)",
-      issuer: "Red Team Leaders",
-      date: "2025",
-      description:
-        "Professional cybersecurity certification validating strong understanding.",
-      icon: <FaCertificate />,
-      status: "Completed",
-      badgeColor: "bg-green-600",
-      details: [
-        "Security fundamentals",
-        "Offensive & defensive concepts",
-      ],
-      skills: ["Red Teaming", "Threat Modeling", "Attack Techniques"],
-      verificationLink:
-        "https://courses.redteamleaders.com/exam-completion/2c70d277a29cc072",
-    },
-    {
-      title: "Foundations of Cybersecurity",
-      issuer: "Google / Coursera",
-      date: "2025",
-      description:
-        "Foundational cybersecurity certificate covering core concepts.",
-      icon: <FaAward />,
-      status: "Completed",
-      badgeColor: "bg-blue-600",
-      details: [
-        "Cybersecurity basics",
-        "Attack techniques",
-      ],
-      skills: ["Network Security", "Security Ethics"],
-      verificationLink:
-        "https://coursera.org/share/a9182085a884e6daf4fccd1c10c138cb",
-    },
-  ];
-
-  // ======================
-  // GLOBAL SKILLS
-  // ======================
-  const skills = [
-    "Web Security",
-    "Penetration Testing",
-    "Bug Bounty Hunting",
-    "Network Security",
-    "API Security",
-    "Active Directory",
-  ];
-
-  // ======================
-  // TOOLS (FULL UPDATED)
-  // ======================
-  const tools = [
-    "Burp Suite",
-    "Nmap",
-    "Subfinder",
-    "Assetfinder",
-    "Amass",
-    "DNSx",
-    "HTTPx",
-    "Naabu",
-    "FFUF",
-    "Nuclei",
-    "Dirsearch",
-    "Gobuster",
-    "Wfuzz",
-    "SQLMap",
-    "XSStrike",
-    "Commix",
-    "Wireshark",
-    "TCPDump",
-    "Metasploit",
-    "Postman",
-    "JWT Toolkit",
-    "Git",
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-gray-200 py-16">
-      <div className="max-w-7xl mx-auto px-6">
-
-        {/* TITLE */}
-        <h1 className="text-4xl font-bold text-[#33FF33] mb-10 text-center">
-          Professional Certifications
+const Certifications = () => (
+  <>
+    <section className="page-wrap pb-16 pt-20 sm:pb-24 sm:pt-28">
+      <motion.div
+        initial={{ opacity: 0, y: 22 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <p className="eyebrow">Credentials · Continuous learning</p>
+        <h1 className="page-title mt-6">
+          Checkpoints, not a substitute for <span className="text-accent">proof.</span>
         </h1>
+        <p className="body-copy mt-8">
+          Structured learning gives me new models to test. Building, practicing,
+          and documenting the work is how I turn those models into judgment.
+        </p>
+      </motion.div>
+    </section>
 
-        {/* ================= TABS ================= */}
-        <div className="flex justify-center gap-4 mb-10 flex-wrap">
-          <button
-            onClick={() => setActiveTab("cert")}
-            className={`px-5 py-2 rounded-lg border ${
-              activeTab === "cert"
-                ? "bg-green-500 text-black"
-                : "border-green-500 text-green-400"
-            }`}
-          >
-            <FaCertificate className="inline mr-2" />
-            Certifications
-          </button>
+    <section className="page-wrap pb-24 sm:pb-32">
+      <div className="grid gap-12 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
+        <div>
+          <div className="flex items-center justify-between pb-5">
+            <div className="flex items-center gap-3">
+              <FaCertificate className="text-[#73e2a7]" aria-hidden="true" />
+              <h2 className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#a2aca7]">
+                Completed learning
+              </h2>
+            </div>
+            <span className="font-mono text-[10px] text-[#626c67]">
+              {String(credentials.length).padStart(2, "0")} records
+            </span>
+          </div>
 
-          <button
-            onClick={() => setActiveTab("skills")}
-            className={`px-5 py-2 rounded-lg border ${
-              activeTab === "skills"
-                ? "bg-green-500 text-black"
-                : "border-green-500 text-green-400"
-            }`}
-          >
-            <FaBrain className="inline mr-2" />
-            Skills
-          </button>
-
-          <button
-            onClick={() => setActiveTab("tools")}
-            className={`px-5 py-2 rounded-lg border ${
-              activeTab === "tools"
-                ? "bg-green-500 text-black"
-                : "border-green-500 text-green-400"
-            }`}
-          >
-            <FaTools className="inline mr-2" />
-            Tools
-          </button>
+          {credentials.map((credential, index) => (
+            <motion.article
+              className="credential-card grid gap-4 sm:grid-cols-[2.6rem_1fr_auto] sm:items-start"
+              key={credential.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.5 }}
+              transition={{ duration: 0.4, delay: index * 0.055 }}
+            >
+              <span className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.025] font-mono text-[10px] text-[#73e2a7]">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-lg font-semibold tracking-[-0.025em] text-white">
+                    {credential.title}
+                  </h3>
+                  <FaCheckCircle className="text-xs text-[#73e2a7]" aria-label="Completed" />
+                </div>
+                <p className="mt-2 text-sm text-[#98a29d]">{credential.issuer}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <span className="tag">{credential.type}</span>
+                  <span className="tag">{credential.date}</span>
+                </div>
+              </div>
+              {credential.verification ? (
+                <a
+                  className="inline-flex items-center gap-2 text-xs font-bold text-[#cbd2ce] transition hover:text-[#73e2a7]"
+                  href={credential.verification}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Verify <FaArrowUp className="rotate-45 text-[9px]" aria-hidden="true" />
+                </a>
+              ) : (
+                <span className="font-mono text-[9px] uppercase tracking-[0.1em] text-[#606964]">
+                  Record available
+                </span>
+              )}
+            </motion.article>
+          ))}
         </div>
 
-        {/* ================= CERTIFICATIONS ================= */}
-        {activeTab === "cert" && (
-          <div className="grid md:grid-cols-3 gap-6">
-            {certifications.map((cert, i) => (
-              <div
-                key={i}
-                onClick={() => setSelectedCertification(cert)}
-                className="bg-[#112240] p-6 rounded-xl cursor-pointer hover:scale-105 transition"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="text-green-400 text-xl">{cert.icon}</div>
-                  <h3 className="text-green-400 font-semibold">
-                    {cert.title}
-                  </h3>
-                </div>
-
-                <p className="text-gray-400 text-sm">{cert.issuer}</p>
-                <p className="text-gray-500 text-sm mt-2">
-                  {cert.description}
-                </p>
-
-                <div className="mt-4 text-right">
-                  <span
-                    className={`px-3 py-1 text-xs rounded-full text-white ${cert.badgeColor}`}
-                  >
-                    {cert.status}
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* ================= SKILLS ================= */}
-        {activeTab === "skills" && (
-          <div className="flex flex-wrap gap-3 justify-center">
-            {skills.map((skill, i) => (
-              <span
-                key={i}
-                className="bg-green-900 text-green-300 px-4 py-2 rounded-full"
-              >
-                {skill}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* ================= TOOLS ================= */}
-        {activeTab === "tools" && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {tools.map((tool, i) => (
-              <div
-                key={i}
-                className="bg-[#112240] p-4 rounded-xl text-center 
-                transition transform hover:scale-105 
-                border border-green-500/20 
-                hover:border-green-400 
-                hover:shadow-md hover:shadow-green-500/20"
-              >
-                <p className="text-blue-300 font-semibold text-sm">
-                  {tool}
+        <motion.aside
+          className="panel h-fit overflow-hidden"
+          initial={{ opacity: 0, x: 18 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="border-b border-white/[0.07] p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <FaCrosshairs className="text-[#73e2a7]" aria-hidden="true" />
+                <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-[#a0aaa5]">
+                  Current focus
                 </p>
               </div>
-            ))}
+              <span className="status-dot" aria-hidden="true" />
+            </div>
+            <h2 className="mt-6 text-2xl font-semibold tracking-[-0.035em] text-white">
+              OSCP preparation
+            </h2>
+            <p className="mt-3 text-sm leading-7 text-[#8f9994]">
+              Building depth in enumeration, exploitation methodology, Linux and
+              Windows privilege escalation, and Active Directory.
+            </p>
           </div>
-        )}
 
-        {/* ================= MODAL ================= */}
-        <AnimatePresence>
-          {selectedCertification && (
-            <motion.div
-              className="fixed inset-0 bg-black/60 flex items-center justify-center p-4"
-              onClick={() => setSelectedCertification(null)}
-            >
-              <motion.div
-                className="bg-gray-800 rounded-xl p-6 max-w-xl w-full"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  onClick={() => setSelectedCertification(null)}
-                  className="float-right"
-                >
-                  <FaTimes />
-                </button>
-
-                <h2 className="text-green-400 text-xl font-bold mb-2">
-                  {selectedCertification.title}
-                </h2>
-
-                <p className="text-gray-400 mb-4">
-                  {selectedCertification.issuer}
-                </p>
-
-                <ul className="mb-4">
-                  {selectedCertification.details.map((d, i) => (
-                    <li key={i} className="flex gap-2">
-                      <FaCheckCircle className="text-green-400" />
-                      {d}
-                    </li>
-                  ))}
-                </ul>
-
-                <a
-                  href={selectedCertification.verificationLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-green-400 flex gap-2"
-                >
-                  <FaLink />
-                  Verify
-                </a>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
+          <div className="p-6">
+            <div className="flex items-center gap-3 text-[#73e2a7]">
+              <FaBookOpen aria-hidden="true" />
+              <p className="font-mono text-[10px] uppercase tracking-[0.13em]">
+                Preparation principle
+              </p>
+            </div>
+            <blockquote className="mt-5 text-lg leading-8 tracking-[-0.02em] text-[#d5dcd8]">
+              “Enumerate deeply. Keep notes. Make every failed attempt teach the
+              next one.”
+            </blockquote>
+            <p className="mt-5 font-mono text-[10px] uppercase tracking-[0.12em] text-[#68726d]">
+              Target · Early 2027
+            </p>
+          </div>
+        </motion.aside>
       </div>
-    </div>
-  );
-};
+    </section>
+  </>
+);
 
 export default Certifications;
